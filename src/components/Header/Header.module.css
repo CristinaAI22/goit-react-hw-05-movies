@@ -1,0 +1,18 @@
+.container {
+  background-color: beige;
+  margin: 0;
+  padding: 10px 0;
+  border: 1px solid beige;
+}
+.navList {
+  display: flex;
+  gap: 25px;
+}
+.text {
+  text-transform: uppercase;
+  color: #d5cd2e;
+  font-size: 20px;
+}
+.text:hover {
+  font-weight: 900;
+}
