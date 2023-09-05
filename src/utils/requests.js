@@ -45,10 +45,20 @@ export async function fetchMovieSearch(query) {
   }
 }
 export const fetchMovieCast = async movieId => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
-  );
-  return response.data.cast;
+  try {
+    console.log('Fetching movie cast for movieId:', movieId);
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+    );
+    console.log('Response from API:', response);
+    return response.data.cast;
+  } catch (error) {
+    console.error('Error fetching movie cast:', error);
+    Notiflix.Notify.failure(
+      'Failed to fetch movie cast. Please try again later.'
+    );
+    throw error;
+  }
 };
 
 export async function fetchMovieReviews(movieId) {

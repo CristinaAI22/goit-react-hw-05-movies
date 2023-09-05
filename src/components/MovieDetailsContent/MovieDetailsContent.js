@@ -1,9 +1,13 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import { IMAGE_URL } from 'utils/constants';
 import css from '../MovieDetailsContent/MovieDetailsContent.module.css';
+import Loader from 'utils/loader';
 
-const MovieDetailsContent = ({ movie, onGoBack, movieId }) => {
+const Cast = lazy(() => import('../Cast'));
+const Reviews = lazy(() => import('../Reviews'));
+
+const MovieDetailsContent = ({ movie, onGoBack, movieId, locationValue }) => {
   return (
     <>
       {movie && (
@@ -39,25 +43,44 @@ const MovieDetailsContent = ({ movie, onGoBack, movieId }) => {
                 <span className={css.textCategory}>Genres: </span>
                 {movie.genres.map(genre => genre.name).join(' ')}
               </p>
-              <div className={css.additionalContainer}>
-                <h3 className={css.title}>Additional information</h3>
-
-                <nav className={css.navContainer}>
-                  <NavLink
-                    className={css.navCategory}
-                    to={`/movies/${movieId}/cast`}
-                  >
-                    Cast
-                  </NavLink>
-                  <NavLink
-                    className={css.navCategory}
-                    to={`/movies/${movieId}/reviews`}
-                  >
-                    Reviews
-                  </NavLink>
-                </nav>
-              </div>
             </div>
+          </div>
+          <div className={css.additionalContainer}>
+            <h3 className={css.title}>Additional information</h3>
+
+            <nav>
+              <NavLink
+                to={{
+                  pathname: `/movies/${movieId}/cast`,
+                  state: { from: locationValue },
+                }}
+              >
+                Cast
+              </NavLink>
+
+              <NavLink
+                to={{
+                  pathname: `/movies/${movieId}/reviews`,
+                  state: { from: locationValue },
+                }}
+              >
+                Reviews
+              </NavLink>
+            </nav>
+
+            <Suspense fallback={<Loader />}>
+              <Routes>
+                <Route
+                  path={`/movies/:movieId/cast`}
+                  element={<Cast movieId={movieId} />}
+                />
+
+                <Route
+                  path={`/movies/:movieID/reviews`}
+                  element={<Reviews movieId={movieId} />}
+                />
+              </Routes>
+            </Suspense>
           </div>
         </div>
       )}

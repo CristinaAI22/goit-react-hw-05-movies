@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchMoviesId } from './utils/requests';
+import { fetchMoviesId } from '../utils/requests';
 
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
