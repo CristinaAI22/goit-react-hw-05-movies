@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/667.b102ab64.chunk.css","mappings":"AAAA,wBACE,oBACF","sources":["components/Cast.module.css"],"sourcesContent":[".actorsList {\n  border: 2px solid red;\n}\n"],"names":[],"sourceRoot":""}
