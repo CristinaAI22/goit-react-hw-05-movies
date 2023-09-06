@@ -1,28 +1,23 @@
-import { Suspense, lazy } from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { IMAGE_URL } from 'utils/constants';
 import css from '../MovieDetailsContent/MovieDetailsContent.module.css';
-import Loader from 'utils/loader';
+import Button from '../Button/Button';
 
-const Cast = lazy(() => import('../Cast'));
-const Reviews = lazy(() => import('../Reviews'));
-
-const MovieDetailsContent = ({ movie, onGoBack, movieId, locationValue }) => {
+const MovieDetailsContent = ({ movie, movieId, locationValue }) => {
+  const defaultImg =
+    'https://upload.wikimedia.org/wikipedia/commons/c/c2/No_image_poster.png';
   return (
     <>
+      <Button />
       {movie && (
         <div className={css.mainContainer}>
-          <div className={css.buttonContainer}>
-            <button className={css.button} type="button" onClick={onGoBack}>
-              <span>&larr;</span>GO BACK
-            </button>
-          </div>
-
           <div className={css.filmContainer}>
             <div className={css.imageContainer}>
               <img
                 className={css.image}
-                src={IMAGE_URL + movie.poster_path}
+                src={
+                  movie.poster_path ? IMAGE_URL + movie.poster_path : defaultImg
+                }
                 alt={movie.title}
               />
             </div>
@@ -43,44 +38,32 @@ const MovieDetailsContent = ({ movie, onGoBack, movieId, locationValue }) => {
                 <span className={css.textCategory}>Genres: </span>
                 {movie.genres.map(genre => genre.name).join(' ')}
               </p>
+              <div className={css.additionalContainer}>
+                <h3 className={css.title}>Additional information</h3>
+
+                <nav className={css.navContainer}>
+                  <NavLink
+                    className={css.navCategory}
+                    to={{
+                      pathname: `/movies/${movieId}/cast`,
+                      state: { from: locationValue },
+                    }}
+                  >
+                    Cast
+                  </NavLink>
+
+                  <NavLink
+                    className={css.navCategory}
+                    to={{
+                      pathname: `/movies/${movieId}/reviews`,
+                      state: { from: locationValue },
+                    }}
+                  >
+                    Reviews
+                  </NavLink>
+                </nav>
+              </div>
             </div>
-          </div>
-          <div className={css.additionalContainer}>
-            <h3 className={css.title}>Additional information</h3>
-
-            <nav>
-              <NavLink
-                to={{
-                  pathname: `/movies/${movieId}/cast`,
-                  state: { from: locationValue },
-                }}
-              >
-                Cast
-              </NavLink>
-
-              <NavLink
-                to={{
-                  pathname: `/movies/${movieId}/reviews`,
-                  state: { from: locationValue },
-                }}
-              >
-                Reviews
-              </NavLink>
-            </nav>
-
-            <Suspense fallback={<Loader />}>
-              <Routes>
-                <Route
-                  path={`/movies/:movieId/cast`}
-                  element={<Cast movieId={movieId} />}
-                />
-
-                <Route
-                  path={`/movies/:movieID/reviews`}
-                  element={<Reviews movieId={movieId} />}
-                />
-              </Routes>
-            </Suspense>
           </div>
         </div>
       )}

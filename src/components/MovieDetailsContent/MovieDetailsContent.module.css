@@ -46,29 +46,3 @@
 .navCategory:hover {
   color: #d5cd2e;
 }
-.buttonContainer {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px;
-}
-.button {
-  width: 140px;
-  height: 50px;
-  border: 0;
-  border-radius: 15px;
-  color: #d52e3f;
-  font-weight: bold;
-  background-color: #d5cd2e;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-.button:hover {
-  background-color: #d52e3f;
-  color: #d5cd2e;
-}
